@@ -3,7 +3,7 @@ jQuery Slug Suggest
 
 Unobtrusive slug generator plugin for jQuery. Generates a URL-safe slug from the title text you enter, using one or more fields as the source. If you don't like the suggestion, it's easily overridden.
 
-![The plugin turns something like 'My Test Project' into 'my_test_project'](demo.gif)
+![The plugin turns something like 'My Test Project' into 'my_test_project'](https://raw2.github.com/paulherron/jquery_slugular/master/demo.gif)
 
 The aim of the plugin is to:
 
