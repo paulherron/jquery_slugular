@@ -3,15 +3,51 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Slug Suggest</title> 		
-		<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 
-		<link rel="stylesheet" href="slug.css"> 
-		<script src="slug.js"></script>
+		<link rel="stylesheet" href="jquery.slugular.css"> 
+		<script src="jquery.slugular.js"></script>
 	</head>
 	<body>
+		<h1>jQuery Slug Suggest</h1>
+
+		<h2>Basic Example</h2>
+		<p>Here we're selecting an input where <code>name="title"</code>.</p>
+		<pre>$('input[name=title]').slugular();</pre>
+		<script>
+			$(document).ready(function() {
+				$('#title').slugular();
+			});
+		</script>
 		<form>
-			<div><label for="title">Title</label><input name="[title]" type="text" maxlength="255" id="title" /></div>
-			<div><label for="slug">Slug</label><input name="slug" type="text" maxlength="255" id="slug" /></div>
+			<label>Title<input name="[title]" type="text" id="title" /></label>
+			<label>Slug<input name="slug" type="text" id="slug" /></label>
+		</form>
+
+		<h2>Combining Multiple Fields</h2>
+		<p>You can combine multiple source fields into one slug field. Just provide a selector that matches all of the relevant source fields.</p>
+		<p>Note here we're also using the <code>slugSelector</code> option to override which field the slug is inserted into. Usually this isn't necessary, but it's handy when you have multiple slug fields on one page, or just want to use a custom name.
+		<pre>$('input[name=first_name],input[name=last_name]').slugular({ slugSelector: 'input[name=name_slug]' });</pre>
+		<script>
+			$(document).ready(function() {
+				$('input[name=first_name],input[name=last_name]').slugular({ slugSelector: 'input[name=name_slug]' });
+			});
+		</script>
+		<form>
+			<label>First Name<input name="first_name" type="text" /></label>
+			<label>Last Name<input name="last_name" type="text" /></label>
+			<label>Slug<input name="name_slug" type="text" /></label>
+		</form>
+
+		<h2>Other Options</h2>
+		<pre>$('#my_title_field').slugular({ slugSelector: '#my_slug_field', separator: '-', suggestionClass: 'my_custom_class' });</pre>
+		<script>
+			$(document).ready(function() {
+				$('#my_title_field').slugular({ slugSelector: '#my_slug_field', separator: '-', suggestionClass: 'my_custom_class' });
+			});
+		</script>
+		<form>
+			<label>Title<input name="my_title_field" type="text" id="my_title_field" /></label>
+			<label>Slug<input name="my_slug_field" type="text" id="my_slug_field" /></label>
 		</form>
 	</body>
 </html>

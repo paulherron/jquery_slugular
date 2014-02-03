@@ -1,42 +1,47 @@
-$(document).ready(function() {
-	
-	// Set some defaults.
-	if(typeof document.titleField === 'undefined') {
-		document.titleField = "input[name$='[title]'],input[name$='[name]']";
-	}
-	if(typeof document.slugField === 'undefined') {
-		document.slugField = "input[name*='slug']";
+jQuery.fn.slugular = function(options) {
+
+	var settings = {
+		slugSelector: "input[name*='slug']:first",
+		separator: '_',
+		suggestionClass: 'has_suggested_slug'
+	};
+
+	if(options) {
+		jQuery.extend(settings, options);
 	}
 
+	var titleField = this;
+	var slugField = $(settings.slugSelector);
+
 	// Do nothing if the title and slug fields aren't present.
-	if(!$(document.slugField).length || !$(document.titleField).length) {
+	if(!slugField.length || !titleField.length) {
 		return;
 	}
 
 	var hasEdited = false;
 
 	// If there's a slug already present, and it looks different to what would have been generated from the current title, show that the slug has already been manually edited.
-	if($(document.slugField).attr('value') !== '' && slugify(getTitle()) !== $(document.slugField).attr('value')) {
+	if(slugField.attr('value') !== '' && slugify(getTitle()) !== slugField.attr('value')) {
 		hasEdited = true;
 	} else {
 		hasEdited = false;
-		$(document.slugField).addClass('has_suggested_slug');
+		slugField.addClass(settings.suggestionClass);
 	}
 	
 	// Generate the slug automatically as soon as the script loads, as the 'title' field may have been prepopulated with a value.
-	populateSlugField($(document.titleField));
+	populateSlugField(titleField);
 
 	// Generate a new slug each time the title has been edited. 
-	$(document.titleField).bind('keyup change', function() {
+	titleField.bind('keyup change', function() {
 		populateSlugField();
 	});
 
 	// Check for a manual override of the generated slug. Once the slug has been manually overridden, automatic slug generation should stop. 
-	$(document.slugField).bind('input', function() {
+	slugField.bind('input', function() {
 		if(!hasEdited) {
 			console.log('slug field has been edited');
 			hasEdited = true;
-			$(this).removeClass('has_suggested_slug');
+			$(this).removeClass(settings.suggestionClass);
 		}
 	});
 
@@ -44,16 +49,9 @@ $(document).ready(function() {
  * Populates the 'slug' field with a URL-safe version of the 'title' field.
  */
 	function populateSlugField() {
-		if(!hasEdited && $(document.titleField).length > 0) {
+		if(!hasEdited && titleField.length > 0) {
 			slug = slugify(getTitle());
-			$(document.slugField).val(slug);
-		}
-
-		// Show or hide the slug length warning according to whether or not it's too long.
-		if($(document.slugField).val().length > 64) {
-			$('#slug_length_warning').show();
-		} else {
-			$('#slug_length_warning').hide();
+			slugField.val(slug);
 		}
 	}
 
@@ -69,7 +67,7 @@ $(document).ready(function() {
 		// Remove any characters that aren't URL-safe.
 		slug = text
 			// Replace spaces, and also the commonly-used ' - ', with underscores.
-			.replace(/\s+(-)?(\s+)?/g, '_')
+			.replace(/\s+(-)?(\s+)?/g, settings.separator)
 			// Replace special characters.
 			.replace(/[àáâãäå]/g, 'a')
 			.replace(/æ/g, 'ae')
@@ -81,11 +79,11 @@ $(document).ready(function() {
 			.replace(/œ/g, 'oe')
 			.replace(/[ùúûü]/g, 'u')
 			.replace(/[ýÿ]/g, 'y')
-			.replace(/[\/:\-]/g, '_')
+			.replace(/[\/:\-]/g, settings.separator)
 			// In what's left, remove anything that isn't URL-safe.
 			.replace(/[^a-z0-9_\-]/g, '')
 			// Avoid multiple underscores from the above replacements.
-			.replace(/[_]+/g, '_')
+			.replace(/[_]+/g, settings.separator)
 			// Avoid trailing and leading underscores caused by whitespace on the beginning or end of the text.
 			.replace(/^_/, '')
 			.replace(/_$/, '');
@@ -99,11 +97,11 @@ $(document).ready(function() {
  * @return	string	Title text 
  */	
 	function getTitle() {
-		if($(document.titleField).size() > 1) {
+		if(titleField.size() > 1) {
 			// As multiple title fields have been defined, concatenate them.
 			title = '';
 			i = 0;
-			$(document.titleField).each(function() {
+			titleField.each(function() {
 				if(i > 0 && title.length > 0 && this.value.length > 0) {
 					title += '_';
 				}
@@ -111,9 +109,9 @@ $(document).ready(function() {
 				i++;
 			});
 		} else {
-			title = $(document.titleField).val();
+			title = titleField.val();
 		}
 		
 		return title;
 	}
-});
+};	

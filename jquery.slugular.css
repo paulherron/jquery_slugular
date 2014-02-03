@@ -1,0 +1,25 @@
+pre {
+	display: inline-block;
+	margin-left: 32px;
+	padding: 32px;
+	border-left: 4px solid #ccc;
+	background: #eee;
+}
+
+label {
+	display: block;
+	padding: 4px;
+}
+
+input {
+	display: block;
+	margin: 2px;
+}
+
+.has_suggested_slug {
+	color: #666;
+}
+
+.my_custom_class {
+	color: blue;
+}
