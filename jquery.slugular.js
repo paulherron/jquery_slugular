@@ -114,4 +114,6 @@ jQuery.fn.slugular = function(options) {
 		
 		return title;
 	}
+
+	return this;
 };	
