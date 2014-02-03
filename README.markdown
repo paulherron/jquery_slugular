@@ -1,5 +1,6 @@
-jQuery Slugular
-===============
+jQuery Slugular: Unobtrusive Slug Suggestion Plugin
+===================================================
+
 
 Unobtrusive slug generator plugin for jQuery. Generates a URL-safe slug from the title text you enter, using one or more fields as the source. If you don't like the suggestion, it's easily overridden.
 
