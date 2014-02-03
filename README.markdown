@@ -1,7 +1,7 @@
 jQuery Slug Suggest
 ===================
 
-A plugin for jQuery that generates a suggested slug, based on the title you entered.
+A plugin for jQuery that takes the title text you enter and generates a sensible slug from it.
 
 A slug is just a URL-safe version of a title. In this case that means converting it to a `lowercase_and_underscored` format.
 
@@ -18,3 +18,6 @@ The aim of the plugin is to:
 Usage
 -----
 
+`$('#title').slugular();`
+
+For more examples, see the demo page.
